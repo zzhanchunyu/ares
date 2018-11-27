@@ -8,6 +8,7 @@ public class AresApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AresApplication.class, args);
+		System.out.println("This is god Ares");
 	}
 
 }
