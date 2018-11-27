@@ -6,15 +6,15 @@
 	<groupId>com.god</groupId>
 	<artifactId>ares</artifactId>
 	<version>1.0.0</version>
+	<packaging>pom</packaging>
+	<name>ares</name>
+	<description>This is god Ares</description>
+
 	<modules>
 		<module>ares-api</module>
 		<module>ares-service</module>
 		<module>ares-web</module>
 	</modules>
-	<packaging>pom</packaging>
-
-	<name>ares</name>
-	<description>This is god Ares</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
