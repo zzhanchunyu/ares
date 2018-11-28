@@ -11,5 +11,23 @@
 
     <artifactId>ares-service</artifactId>
 
+    <properties>
+        <ares.api.version>1.0.0</ares.api.version>
+        <ares.common.version>1.0.0</ares.common.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.god</groupId>
+            <artifactId>ares-api</artifactId>
+            <version>${ares.api.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.god</groupId>
+            <artifactId>ares-common</artifactId>
+            <version>${ares.common.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>
