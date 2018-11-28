@@ -814,7 +814,7 @@ public class MybatisGenerator {
 
         for (int i = 0; i < size; i++) {
             tempField = processField(columns.get(i));
-            //todo 数字类型=0的要特殊处理 delFlag != '' 若是0   false
+            // 数字类型=0的要特殊处理 delFlag != '' 若是0   false
             String type = this.processXmlType2(types.get(i));
             if ("jdbcType=INTEGER".equals(type)) {
                 bw.write("\t\t<if test=\"" + tempField + " != null \"> and " + columns.get(i) + " = #{" + tempField + "," + type + "} </if>");
