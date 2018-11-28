@@ -1,4 +1,4 @@
-package com.god.ares.generator;
+package com.god.ares.util;
 
 import java.io.BufferedWriter;
 import java.io.File;
