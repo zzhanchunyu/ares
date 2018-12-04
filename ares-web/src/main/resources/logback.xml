@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<configuration>
+    <property name="LOG_HOME" value="${catalina.base}/logs"/>
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%highlight(%-5level)[%d{yyyy/MM/dd HH:mm:ss.SSS}][%p][%logger{0}:%L] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- slow sql config start-->
+    <appender name="SELF_SQL_SLOW_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/ares_slow_sql.log</file>
+        <encoder>
+            <pattern>[%X{userName}][%d{yyyy/MM/dd HH:mm:ss.SSS}][%p][%logger{0}:%L] %m%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/ares_slow_sql.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="SELF_SQL_EXCEPTION_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/ares_sql_exception.log</file>
+        <encoder>
+            <pattern>[%X{userName}][%d{yyyy/MM/dd HH:mm:ss.SSS}][%p][%logger{0}:%L] %m%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/ares_sql_exception.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+
+    <!-- 本应用自己的日志,按天分割,catalina.out里不记录 -->
+    <appender name="aresAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/ares.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/ares.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%d{yyyy/MM/dd HH:mm:ss.SSS}][%p][%logger{0}:%L] %m%n</pattern>
+        </encoder>
+    </appender>
+    <!-- dubbo log放到单独文件，保留最近15天日志 -->
+    <appender name="dubboRolling" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/dubbo.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/ares-%d{yyyy-MM-dd}.%i-dubbo.zip</fileNamePattern>
+            <maxHistory>15</maxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <MaxFileSize>300MB</MaxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <immediateFlush>true</immediateFlush>
+        </encoder>
+    </appender>
+
+    <logger name="com.alibaba.dubbo" level="info" additivity="true">
+        <appender-ref ref="dubboRolling"/>
+    </logger>
+
+    <!-- catalina.out 只记录error日志 -->
+    <root level="INFO">
+        <appender-ref ref="console"/>
+    </root>
+
+    <logger name="ares_slow_sql_logger" additivity="false">
+        <appender-ref ref="console"/>
+        <appender-ref ref="SELF_SQL_SLOW_INFO"/>
+    </logger>
+
+    <logger name="ares_exception_sql_logger" additivity="false">
+        <appender-ref ref="console"/>
+        <appender-ref ref="SELF_SQL_EXCEPTION_INFO"/>
+    </logger>
+    <!-- slow sql config end-->
+
+    <logger name="org.springframework.jdbc.core" level="DEBUG"/>
+
+    <logger name="java.sql" level="INFO"/>
+
+    <logger name="com.god.ares" level="INFO" additivity="true">
+        <appender-ref ref="aresAppender"/>
+    </logger>
+
+</configuration>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="commandFactory" class="com.god.ares.command.CommandFactory">
+        <property name="commandMap">
+            <map key-type="com.god.ares.command.CommandType" value-type="com.god.ares.command.Command">
+                <entry key="APPLE_MAC" value-ref="appleMacCmd"/>
+                <entry key="APPLE_IPAD" value-ref="appleIPadCmd"/>
+                <entry key="APPLE_IPHONE" value-ref="appleIPhoneCmd"/>
+            </map>
+        </property>
+    </bean>
+
+</beans>
